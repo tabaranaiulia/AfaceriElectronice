@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const User = require('./database/models/User');
 const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
-const verifyToken = require('./utils');
+const {verifyToken} = require('./utils');
 
 const app = express();
 dotenv.config();
