@@ -40,6 +40,12 @@ router.post('/check', async (req, res) => {
     }
 
     const validToken = isValidToken(token);
+
+    if (!validToken) {
+        return res.status(400).json({success: false, message: 'Token not valid', data: {}})
+    }
+    res.status(200).json({success: true, message: 'Token is valid', data:{} })
+
 })
 
 
