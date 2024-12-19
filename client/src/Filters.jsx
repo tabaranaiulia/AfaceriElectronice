@@ -30,6 +30,7 @@ const Filters = (props) => {
       </div>
       <div>
         <select id="categorySelect" onChange={handleCategoryChange}>
+          <option value="">All</option>
           {categories?.map((category) => (
             <option key={category.slug} value={category.slug}>
               {category.name}

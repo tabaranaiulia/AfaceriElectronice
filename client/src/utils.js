@@ -89,3 +89,15 @@ export const placeOrder = async () => {
   const response = await result.json();
   return response;
 };
+
+export const createUser = async (userData) => {
+  const result = await fetch(`http://localhost:3000/users/create`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+  const response = await result.json();
+  return response;
+};

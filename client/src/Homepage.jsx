@@ -1,24 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Products from "./Products";
 import Filters from "./Filters";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Import jwt-decode
+import { useSelector } from "react-redux";
 
 function Homepage() {
   const [filters, setFilters] = useState({
     category: "",
   });
-  const [role, setRole] = useState(""); // State to store the role
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      setRole(decodedToken.role); // Store the role in the state
-    }
-  }, []);
+  // Access the role from the Redux store
+  const role = useSelector((state) => state.global.role);
 
   const goToCart = () => {
     navigate("/cart");
@@ -30,11 +24,17 @@ function Homepage() {
 
   return (
     <>
-      <button onClick={goToCart}>Go to cart</button>
-      {/* Conditionally render the button for admin role */}
-      {role === "admin" && (
-        <button onClick={goToAdmin}>Go to Admin Page</button>
-      )}
+      <div style={{ display: "flex", gap: "10px" }}>
+        <button style={{ padding: "5px 10px" }} onClick={goToCart}>
+          Go to cart
+        </button>
+        {/* Conditionally render the button for admin role */}
+        {role === "admin" && (
+          <button style={{ padding: "5px 10px" }} onClick={goToAdmin}>
+            Go to Admin Page
+          </button>
+        )}
+      </div>
       <div className="homepageWrapper">
         <Filters setFilters={setFilters} />
         <div>
