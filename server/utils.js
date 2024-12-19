@@ -1,30 +1,36 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-    const bearerToken = req.headers['authorization'];
-    const token = bearerToken.split(' ')[1];
+  const bearerToken = req.headers["authorization"];
+  if (!bearerToken) {
+    return res
+      .status(403)
+      .json({ success: false, message: "No token provided" });
+  }
 
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(400).json({success: false, message: 'Invalid token', data: {}})
-        }
+  const token = bearerToken.split(" ")[1];
 
-        req.userId = decoded.id;
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(400).json({ success: false, message: "Invalid token" });
+    }
 
-        next();
-    })
-}
+    console.log(decoded + " alex");
+    req.userId = decoded.id;
+    next();
+  });
+};
 
 const isValidToken = (token) => {
-    try {
-        jwt.verify(token, process.env.TOKEN_SECRET);
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
+  try {
+    jwt.verify(token, process.env.TOKEN_SECRET);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 
 module.exports = {
-    verifyToken,
-    isValidToken
-}
+  verifyToken,
+  isValidToken,
+};
